@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login – Book Nest</title>
+    <!-- Link to CSS in same folder -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container" id="login-container">
+        <h2>Login to Book Nest</h2>
+        <form onsubmit="return loginUser()">
+            <div class="input-group">
+                <label for="login-email">Email</label>
+                <input type="email" id="login-email" required>
+            </div>
+            <div class="input-group">
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" required>
+            </div>
+            <button type="submit" class="btn">Login</button>
+            <p class="error" id="login-error">Invalid email or password!</p>
+        </form>
+        <p class="toggle-link" onclick="toggleForm()">Don't have an account? Sign up</p>
+    </div>
+
+    <div class="container" id="signup-container" style="display: none;">
+        <h2>Sign Up</h2>
+        <form onsubmit="return signUpUser()">
+            <div class="input-group">
+                <label for="signup-email">Email</label>
+                <input type="email" id="signup-email" required>
+            </div>
+            <div class="input-group">
+                <label for="signup-password">Password</label>
+                <input type="password" id="signup-password" required>
+            </div>
+            <button type="submit" class="btn">Sign Up</button>
+            <p class="error" id="signup-error">Email already registered!</p>
+        </form>
+        <p class="toggle-link" onclick="toggleForm()">Already have an account? Login</p>
+    </div>
+
+    <script>
+        function toggleForm() {
+            document.getElementById("login-container").style.display =
+                document.getElementById("login-container").style.display === "none" ? "block" : "none";
+            document.getElementById("signup-container").style.display =
+                document.getElementById("signup-container").style.display === "none" ? "block" : "none";
+        }
+
+        function signUpUser() {
+            let email = document.getElementById("signup-email").value;
+            let password = document.getElementById("signup-password").value;
+            let errorMsg = document.getElementById("signup-error");
+            
+            if (localStorage.getItem(email)) {
+                errorMsg.style.display = "block";
+                return false;
+            }
+            
+            localStorage.setItem(email, password);
+            alert("Sign up successful! You can now log in.");
+            toggleForm();
+            return false;
+        }
+
+        function loginUser() {
+            let email = document.getElementById("login-email").value;
+            let password = document.getElementById("login-password").value;
+            let errorMsg = document.getElementById("login-error");
+            
+            if (localStorage.getItem(email) === password) {
+                alert("Login successful!");
+                return false;
+            } else {
+                errorMsg.style.display = "block";
+                return false;
+            }
+        }
+    </script>
+</body>
+</html>
